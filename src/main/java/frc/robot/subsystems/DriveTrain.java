@@ -31,12 +31,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class DriveTrain extends SubsystemBase {
 
   /* left motors */
-  private final WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(DriveConstants.LEFT_MOTOR1_PORT);
-  private final WPI_TalonSRX backLeftMotor = new WPI_TalonSRX(DriveConstants.LEFT_MOTOR2_PORT);
+  private final WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(1);
+  private final WPI_TalonSRX backLeftMotor = new WPI_TalonSRX(3);
 
   /* right motors */
-  private final WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(DriveConstants.RIGHT_MOTOR1_PORT);
-  private final WPI_TalonSRX backRightMotor = new WPI_TalonSRX(DriveConstants.RIGHT_MOTOR2_PORT);
+  private final WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(2);
+  private final WPI_TalonSRX backRightMotor = new WPI_TalonSRX(4);
 
   /* encoders */
   //private final Encoder rightEncoder = new Encoder(DriveConstants.LEFT_ENCODER_PORT_A,DriveConstants.LEFT_ENCODER_PORT_B,DriveConstants.LEFT_ENCODER_REVERSE);
@@ -46,18 +46,19 @@ public class DriveTrain extends SubsystemBase {
   //private final AHRS gyro = new AHRS(SPI.Port.kMXP); ;
 
   /* dashboard for debug values */
-  private SmartDashboard m_dash;
+  //private SmartDashboard m_dash;
 
 
   /* values for testing encoders */
+  /*
   double vel1;
   double vel2;
 
-  /* values for testing gyro */
+  /* values for testing gyro 
   double angle;
   double altitude;
   double heading;
-
+  */
   /** Creates a new Drivetrain. */
   public DriveTrain() {}
 
@@ -69,11 +70,11 @@ public class DriveTrain extends SubsystemBase {
     double turn = Deadband(rot);
 
 		/* Arcade Drive using PercentOutput along with Arbitrary Feed Forward supplied by turn */
-    frontLeftMotor.set(ControlMode.PercentOutput, -forward, DemandType.ArbitraryFeedForward, -turn);
-    backLeftMotor.set(ControlMode.PercentOutput, -forward, DemandType.ArbitraryFeedForward, -turn);
+    frontLeftMotor.set(ControlMode.PercentOutput, forward, DemandType.ArbitraryFeedForward, turn);
+    backLeftMotor.set(ControlMode.PercentOutput, forward, DemandType.ArbitraryFeedForward, turn);
     
     frontRightMotor.set(ControlMode.PercentOutput, -forward, DemandType.ArbitraryFeedForward, turn);
-    backRightMotor.set(ControlMode.PercentOutput, forward, DemandType.ArbitraryFeedForward, -turn);
+    backRightMotor.set(ControlMode.PercentOutput, -forward, DemandType.ArbitraryFeedForward, turn);
   }
 
   // eliminates small inperfections in the driveStick's resting position

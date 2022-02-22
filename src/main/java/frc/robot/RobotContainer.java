@@ -6,11 +6,17 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.Roller_Commands.*;
+import frc.robot.commands.Vision_Commands.VisionTracking;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Rollers;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,7 +34,11 @@ public class RobotContainer {
   public Joystick driver = new Joystick(Constants.OIConstants.DRIVER);
   public GenericHID operator = new Joystick(Constants.OIConstants.OPERATOR);
 
+  private DriveTrain m_DriveTrain;
+
+// A chooser for autonomous commands
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
@@ -50,14 +60,9 @@ public class RobotContainer {
     new JoystickButton(operator, OIConstants.DUMP_BUTTON).whenReleased(new Stop(_Rollers));
 
   }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  /*public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }*/
 }

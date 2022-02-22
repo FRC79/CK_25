@@ -1,6 +1,7 @@
 package frc.robot.commands.Vision_Commands;
 
-import frc.robot.Vision.RedHalfPipeline;
+import frc.robot.Constants;
+import frc.robot.Vision.VisionCamera;
 
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
@@ -27,52 +28,37 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
+import io.github.pseudoresonance.pixy2api.Pixy2CCC.Block;
 
 
-public class RedTracking extends CommandBase {
-    private static final int IMG_WIDTH = 320;
-    private static final int IMG_HEIGHT = 240;
-    private VisionThread visionThread;
+public class VisionTracking extends CommandBase {
+    private static final int IMG_WIDTH = 316;
     private double centerX = 0.0;
-    private final Object imgLock = new Object();
     private DriveTrain m_DriveTrain;
-    private final Ultrasonic ultrasonic = new Ultrasonic(1, 2);
+    private VisionCamera m_visionRed;
 
-    public RedTracking(DriveTrain subsystem) {
+  public VisionTracking(DriveTrain subsystem) {
         // Use addRequirements() here to declare subsystem dependencies.
         m_DriveTrain = subsystem;
         addRequirements(m_DriveTrain);
-    
+        m_visionRed = new VisionCamera();
       }
 
     @Override
   public void initialize() {
-    UsbCamera camera = CameraServer.startAutomaticCapture();
-    camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
-
-    visionThread = new VisionThread(camera, new RedHalfPipeline(), pipeline -> {
-        if (!pipeline.filterContoursOutput().isEmpty()) {
-            Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-            synchronized (imgLock) {
-                centerX = r.x + (r.width / 2);
-            }
-        }
-        else{
-            synchronized (imgLock) {
-                centerX = 0;
-            }
-        }
-        
-    });
-    visionThread.start();
+    VisionCamera.initialize();
   }
-  @Override
+    @Override
   public void execute() {
-    double centerX;
-    synchronized (imgLock) {
-        centerX = this.centerX;
-    }
-
+    Block r = m_visionRed.getBiggestBlock(Constants.VisionConstants.Red_Signature);
+    if (r != null) {
+            centerX = r.getX() + (r.getWidth() / 2);
+        }
+    else{
+            centerX = 0;
+        }
+    int width = m_visionRed.getWidth();
+    System.out.print("Width is" + width);
     double turn = centerX - (IMG_WIDTH / 2);
     String s=String.valueOf(turn);  
     String x=String.valueOf(centerX); 
@@ -81,11 +67,11 @@ public class RedTracking extends CommandBase {
     if (centerX == 0){
         m_DriveTrain.arcadeDrive(0, 0);
     }
-    else if(centerX <= 170 && centerX >= 150){
+    else if(centerX <= 168 && centerX >= 148){
         m_DriveTrain.arcadeDrive(0.6, 0);
     }
     else{
-        m_DriveTrain.arcadeDrive(0.6, turn * 0.005);
+        m_DriveTrain.arcadeDrive(0, turn * 0.005);
     }
     
     try {
@@ -94,17 +80,6 @@ public class RedTracking extends CommandBase {
         // TODO Auto-generated catch block
         e.printStackTrace();
     }
-    }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
   }
 }
 

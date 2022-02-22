@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import io.github.pseudoresonance.pixy2api.Pixy2CCC;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -63,5 +64,10 @@ public final class Constants {
     /* Controller Buttons */
     public static final int INTAKE_BUTTON = 1;
     public static final int DUMP_BUTTON = 3;
+  }
+
+  public static final class VisionConstants{
+    public static final byte Red_Signature = Pixy2CCC.CCC_SIG1;
+    public static final byte Blue_Signature = Pixy2CCC.CCC_SIG2;
   }
 }

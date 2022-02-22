@@ -22,9 +22,9 @@ public class TeleopDrive extends CommandBase {
   /**
    * Creates a new TelepoDrive.
    */
-  public TeleopDrive(DriveTrain subsystem, RobotContainer roboContainer) {
+  public TeleopDrive(DriveTrain subsystem, RobotContainer robotContainer) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_RobotContainer = roboContainer;
+    m_RobotContainer = robotContainer;
     m_DriveTrain = subsystem;
     addRequirements(m_DriveTrain);
 
@@ -33,7 +33,7 @@ public class TeleopDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_stick = m_RobotContainer.driver;
+    m_stick = new Joystick(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

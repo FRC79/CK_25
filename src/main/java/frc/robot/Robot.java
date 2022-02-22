@@ -34,9 +34,7 @@ public class Robot extends TimedRobot {
 
   private TeleopDrive m_TeleopDrive;
 
-  private Command m_autonomousCommand;
-
-  private RedTracking m_RedTracking;
+  private VisionTracking m_visionTracking;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -47,7 +45,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_DriveTrain = new DriveTrain();
-
+    m_visionTracking = new VisionTracking(m_DriveTrain);
   }
 
   /**
@@ -57,6 +55,7 @@ public class Robot extends TimedRobot {
    * <p>This runs after the mode specific periodic functions, but before LiveWindow and
    * SmartDashboard integrated updating.
    */
+  
   @Override
   public void robotPeriodic() {
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
@@ -77,11 +76,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     // schedule the autonomous command (example)
-    m_RedTracking = new RedTracking(m_DriveTrain);
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    m_visionTracking = new VisionTracking(m_DriveTrain);
+    if (m_visionTracking != null) {
+      m_visionTracking.schedule();
     }
-    m_RedTracking.schedule();
   }
 
   /** This function is called periodically during autonomous. */
@@ -97,8 +95,8 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     m_TeleopDrive = new TeleopDrive(m_DriveTrain, m_robotContainer); 
     //m_recordDrive = new TestRecordDrive(m_Recorder,m_DriveTrain, m_robotContainer);
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    if (m_visionTracking != null) {
+      m_visionTracking.cancel();
     }
     m_TeleopDrive.schedule();
     //m_recordDrive.schedule();
