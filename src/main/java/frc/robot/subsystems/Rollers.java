@@ -7,21 +7,22 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import frc.robot.Constants.RollerConstants;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.RollerConstants;
 
 public class Rollers extends SubsystemBase {
   // intake victors
   private VictorSPX intakeMotor = new VictorSPX(RollerConstants.INTAKE);
   // ball clip victors
-  private final VictorSPX clipLowMotor = new VictorSPX(RollerConstants.CLIP_LOW);
-  private final VictorSPX clipHighMotor = new VictorSPX(RollerConstants.CLIP_HIGH);
+  private final VictorSPX shootMotor = new VictorSPX(RollerConstants.SHOOT);
   // ball dump victors
-  private final VictorSPX dumpMotor = new VictorSPX(RollerConstants.DUMPER);
+  private final VictorSPX wheelMotor = new VictorSPX(RollerConstants.WHEEL);
+
+  private final VictorSPX frontSlideMotor = new VictorSPX(RollerConstants.SLIDE_FRONT);
+  private final VictorSPX backSlideMotor = new VictorSPX(RollerConstants.SLIDE_BACK);
 
   /**
    * Creates a new BallConveyer.
@@ -34,15 +35,17 @@ public class Rollers extends SubsystemBase {
     intakeMotor.set(ControlMode.PercentOutput, speed);
   }
 
-  public void setClipLowMotor(double speed){
-    clipLowMotor.set(ControlMode.PercentOutput, speed);
-  }
-  public void setClipHighMotor(double speed){
-    clipHighMotor.set(ControlMode.PercentOutput, speed);
+  public void setShootMotor(double speed){
+    shootMotor.set(ControlMode.PercentOutput, speed);
   }
 
-  public void setDumpMotors(double speed){
-    dumpMotor.set(ControlMode.PercentOutput, speed);
+  public void setWheelMotors(double speed){
+    wheelMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void setSlideMotors(double speed){
+    frontSlideMotor.set(ControlMode.PercentOutput, speed);
+    backSlideMotor.set(ControlMode.PercentOutput, speed);
   }
 
   @Override

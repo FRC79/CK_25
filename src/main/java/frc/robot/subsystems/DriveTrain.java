@@ -13,7 +13,7 @@ import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj.Encoder;
 
 // gyro lib
-//import com.kauailabs.navx.frc.AHRS;
+import com.kauailabs.navx.frc.AHRS;
 // SP interface for gyro
 import edu.wpi.first.wpilibj.SPI;
 
@@ -31,34 +31,33 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class DriveTrain extends SubsystemBase {
 
   /* left motors */
-  private final WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(1);
-  private final WPI_TalonSRX backLeftMotor = new WPI_TalonSRX(3);
+  private final WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(DriveConstants.LEFT_MOTOR1_PORT);
+  private final WPI_TalonSRX backLeftMotor = new WPI_TalonSRX(DriveConstants.LEFT_MOTOR2_PORT);
 
   /* right motors */
-  private final WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(2);
-  private final WPI_TalonSRX backRightMotor = new WPI_TalonSRX(4);
+  private final WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(DriveConstants.RIGHT_MOTOR1_PORT);
+  private final WPI_TalonSRX backRightMotor = new WPI_TalonSRX(DriveConstants.RIGHT_MOTOR2_PORT);
 
   /* encoders */
   //private final Encoder rightEncoder = new Encoder(DriveConstants.LEFT_ENCODER_PORT_A,DriveConstants.LEFT_ENCODER_PORT_B,DriveConstants.LEFT_ENCODER_REVERSE);
   //private final Encoder leftEncoder  = new Encoder(DriveConstants.RIGHT_ENCODER_PORT_A,DriveConstants.RIGHT_ENCODER_PORT_B,DriveConstants.RIGHT_ENCODER_REVERSE);
 
   /* gyro */
-  //private final AHRS gyro = new AHRS(SPI.Port.kMXP); ;
+  public final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
   /* dashboard for debug values */
-  //private SmartDashboard m_dash;
+  private SmartDashboard m_dash;
 
 
-  /* values for testing encoders */
-  /*
+  /* values for testing encoders 
   double vel1;
   double vel2;
-
-  /* values for testing gyro 
+  */
+  // values for testing gyro 
   double angle;
   double altitude;
   double heading;
-  */
+
   /** Creates a new Drivetrain. */
   public DriveTrain() {}
 
@@ -77,6 +76,7 @@ public class DriveTrain extends SubsystemBase {
     backRightMotor.set(ControlMode.PercentOutput, -forward, DemandType.ArbitraryFeedForward, turn);
   }
 
+
   // eliminates small inperfections in the driveStick's resting position
   double Deadband(double value) { 
 		/* Upper deadband */
@@ -91,6 +91,10 @@ public class DriveTrain extends SubsystemBase {
 		return 0;
   }
 
+  public double getHeading() {
+    return Math.IEEEremainder(gyro.getAngle(), 360) * (false ? -1.0 : 1.0);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -100,14 +104,15 @@ public class DriveTrain extends SubsystemBase {
 
     m_dash.putNumber("Encoder1", vel1);
     m_dash.putNumber("Encoder2", vel2);
-
+    */
     angle = gyro.getAngle();
     altitude = gyro.getAltitude();
     heading = gyro.getCompassHeading();
 
-    m_dash.putNumber("Angle", angle);
+    //System.out.println(getHeading());
+
+    m_dash.putNumber("Angle", getHeading());
     m_dash.putNumber("Altitude", altitude);
     m_dash.putNumber("Altitude", heading);
-    */
   }
 }

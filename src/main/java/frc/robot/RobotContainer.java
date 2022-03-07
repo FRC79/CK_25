@@ -6,16 +6,15 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.PneumaticsConstants;
+import frc.robot.commands.Climb_Commands.*;
 import frc.robot.commands.Roller_Commands.*;
-import frc.robot.commands.Vision_Commands.VisionTracking;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Rollers;
+import frc.robot.subsystems.Pneumatics;
 
 
 /**
@@ -28,6 +27,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   /* Subsystems */
   private Rollers _Rollers = new Rollers();
+  private Pneumatics _Pneumatics = new Pneumatics();
   /* commands */
 
   /* joysticks */
@@ -51,13 +51,29 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings(){
+    
+    // Shooter Buttons
     new JoystickButton(operator, OIConstants.INTAKE_BUTTON).whenPressed(new Intake(_Rollers));
 
-    new JoystickButton(operator, OIConstants.DUMP_BUTTON).whenPressed(new Dump(_Rollers));
+    new JoystickButton(operator, OIConstants.SHOOT_BUTTON).whenPressed(new Shoot(_Rollers));
+
+    new JoystickButton(operator, OIConstants.WHEEL_BUTTON).whenPressed(new Wheel(_Rollers));
 
     new JoystickButton(operator, OIConstants.INTAKE_BUTTON).whenReleased(new Stop(_Rollers));
 
-    new JoystickButton(operator, OIConstants.DUMP_BUTTON).whenReleased(new Stop(_Rollers));
+    new JoystickButton(operator, OIConstants.SHOOT_BUTTON).whenReleased(new Stop(_Rollers));
+
+    new JoystickButton(operator, OIConstants.WHEEL_BUTTON).whenReleased(new StopWheel(_Rollers));
+
+    // Pneumatics Buttons
+    new JoystickButton(operator, OIConstants.UP_BUTTON).whenPressed(new PushUp(_Pneumatics));
+
+    new JoystickButton(operator, OIConstants.DOWN_BUTTON).whenPressed(new PushDown(_Pneumatics));
+
+    // Climber Buttons
+    new JoystickButton(operator, OIConstants.JERRY_BUTTON).whileHeld(new SlideUp(_Rollers));
+
+    new JoystickButton(operator, OIConstants.TOM_BUTTON).whileHeld(new SlideDown(_Rollers));
 
   }
   /**

@@ -2,18 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Roller_Commands;
+package frc.robot.commands.Climb_Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Rollers;
 
-public class Stop extends CommandBase {
-  private final Rollers m_Rollers;
-  /** Creates a new Stop. */
-  public Stop(Rollers Roller) {
+import frc.robot.subsystems.Pneumatics;
+
+public class PushDown extends CommandBase {
+  private final Pneumatics m_Pneumatics;
+
+  /** Creates a new PushDown. */
+  public PushDown(Pneumatics Pneumatics) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_Rollers = Roller;
-    addRequirements(m_Rollers);
+    m_Pneumatics = Pneumatics;
+    addRequirements(m_Pneumatics);
   }
 
   // Called when the command is initially scheduled.
@@ -23,8 +25,7 @@ public class Stop extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Rollers.setIntakeMotors(0);
-    m_Rollers.setShootMotor(0);
+    m_Pneumatics.reversePiston();
   }
 
   // Called once the command ends or is interrupted.
@@ -34,6 +35,6 @@ public class Stop extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

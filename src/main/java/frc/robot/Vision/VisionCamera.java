@@ -14,7 +14,7 @@ public class VisionCamera {
 
 	public static void initialize() {
 	    pixy = Pixy2.createInstance(new SPILink()); // Creates a new Pixy2 camera using SPILink
-		pixy.init(1); // Initializes the camera and prepares to send/receive data
+		pixy.init(0); // Initializes the camera and prepares to send/receive data
 		//pixy.setLamp((byte) 1, (byte) 1); // Turns the LEDs on
 		pixy.setLED(255, 255, 255); // Sets the RGB LED to full white
 	}
@@ -24,7 +24,7 @@ public class VisionCamera {
 		// does not wait for new data if none is available,
 		// and limits the number of returned blocks to 25, for a slight increase in efficiency
 		int blockCount = pixy.getCCC().getBlocks(false, signature, 25);
-		System.out.print("Found " + blockCount + " blocks!"); // Reports number of blocks found
+		System.out.print("Found " + blockCount + " blocks! "); // Reports number of blocks found
 		if (blockCount <= 0) {
 			return null; // If blocks were not found, stop processing
 		}

@@ -4,6 +4,7 @@
 
 package frc.robot;
 import io.github.pseudoresonance.pixy2api.Pixy2CCC;
+import edu.wpi.first.wpilibj.AnalogInput;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -45,14 +46,47 @@ public final class Constants {
       public static final int LEFT_ENCODER_PORT_A         = 2;     // port for the A channel of left encoder
       public static final int LEFT_ENCODER_PORT_B         = 3;     // port for the B channel of leff encoder
       public static final boolean LEFT_ENCODER_REVERSE    = false; // is the left encoder reversed?
+
+      public static final int kLeftMotor1Port = 1;
+      public static final int kLeftMotor2Port = 3;
+      public static final int kRightMotor1Port = 2;
+      public static final int kRightMotor2Port = 4;
+
+      public static final int[] kLeftEncoderPorts = new int[] {0, 1};
+      public static final int[] kRightEncoderPorts = new int[] {2, 3};
+      public static final boolean kLeftEncoderReversed = false;
+      public static final boolean kRightEncoderReversed = true;
+
+      public static final int kEncoderCPR = 1024;
+      public static final double kWheelDiameterInches = 6;
+      public static final double kEncoderDistancePerPulse =
+          // Assumes the encoders are directly mounted on the wheel shafts
+          (kWheelDiameterInches * Math.PI) / (double) kEncoderCPR;
+
+      public static final boolean kGyroReversed = false;
+
+      public static final double kStabilizationP = 1;
+      public static final double kStabilizationI = 0.5;
+      public static final double kStabilizationD = 0;
+
+      public static final double kTurnP = 1;
+      public static final double kTurnI = 0;
+      public static final double kTurnD = 0;
+
+      public static final double kMaxTurnRateDegPerS = 100;
+      public static final double kMaxTurnAccelerationDegPerSSquared = 300;
+
+      public static final double kTurnToleranceDeg = 5;
   }    
 
   public static final class RollerConstants {
     /* roller vicors */
     public static final int INTAKE    = 6;
-    public static final int CLIP_LOW  = 9;
-    public static final int CLIP_HIGH = 12;
-    public static final int DUMPER    = 11;
+    public static final int SHOOT  = 9;
+    public static final int WHEEL    = 11;
+    public static final int SLIDE_FRONT  = 12;
+    public static final int SLIDE_BACK  = 13;
+
   }
 
 
@@ -63,11 +97,23 @@ public final class Constants {
   
     /* Controller Buttons */
     public static final int INTAKE_BUTTON = 1;
-    public static final int DUMP_BUTTON = 3;
+    public static final int SHOOT_BUTTON = 2;
+    public static final int WHEEL_BUTTON = 3;
+    public static final int UP_BUTTON = 4;
+    public static final int DOWN_BUTTON = 5;
+    public static final int JERRY_BUTTON = 6;
+    public static final int TOM_BUTTON = 7;
+
   }
 
   public static final class VisionConstants{
     public static final byte Red_Signature = Pixy2CCC.CCC_SIG1;
     public static final byte Blue_Signature = Pixy2CCC.CCC_SIG2;
+  }
+
+  public static final class PneumaticsConstants{
+  }
+
+  public static final class TopRollersConstants{
   }
 }

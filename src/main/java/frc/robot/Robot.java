@@ -4,10 +4,19 @@
 
 package frc.robot;
 
+import java.util.concurrent.TimeoutException;
+
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
+
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Rollers;
 import frc.robot.commands.Drive_Commands.*;
@@ -26,15 +35,18 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private final DigitalInput m_photoElectic = new DigitalInput(4);
 
   /* drive train */
   private DriveTrain m_DriveTrain;
+
+  private DriveSubsystem m_DriveSubsystem;
 
   /* commands */
 
   private TeleopDrive m_TeleopDrive;
 
-  private VisionTracking m_visionTracking;
+  private SequentialCommandGroup auto;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -45,7 +57,10 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_DriveTrain = new DriveTrain();
-    m_visionTracking = new VisionTracking(m_DriveTrain);
+    m_DriveSubsystem = new DriveSubsystem();
+    m_DriveTrain.gyro.reset();
+    Shuffleboard.getTab("Example tab").add(m_DriveTrain.gyro);
+    //m_visionTracking = new VisionTracking(m_DriveTrain, m_ultrasonic, m_photoElectic, m_DriveSubsystem);
   }
 
   /**
@@ -76,10 +91,15 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     // schedule the autonomous command (example)
-    m_visionTracking = new VisionTracking(m_DriveTrain);
-    if (m_visionTracking != null) {
-      m_visionTracking.schedule();
-    }
+    auto = new SequentialCommandGroup(new DriveInchAway(m_DriveTrain), 
+    new TurnToAngle(-90, m_DriveTrain, m_DriveSubsystem), 
+    new VisionTracking(m_DriveTrain, m_photoElectic, m_DriveSubsystem), 
+    new TurnToAngle(0, m_DriveTrain, m_DriveSubsystem),
+    new DriveForSec(m_DriveTrain),
+    new VisionTracking(m_DriveTrain, m_photoElectic, m_DriveSubsystem));
+    if (auto != null) {
+      auto.schedule();
+      }
   }
 
   /** This function is called periodically during autonomous. */
@@ -95,8 +115,8 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     m_TeleopDrive = new TeleopDrive(m_DriveTrain, m_robotContainer); 
     //m_recordDrive = new TestRecordDrive(m_Recorder,m_DriveTrain, m_robotContainer);
-    if (m_visionTracking != null) {
-      m_visionTracking.cancel();
+    if (auto != null) {
+      auto.cancel();
     }
     m_TeleopDrive.schedule();
     //m_recordDrive.schedule();

@@ -7,10 +7,10 @@ package frc.robot.commands.Roller_Commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Rollers;
 
-public class Stop extends CommandBase {
+public class StopWheel extends CommandBase {
   private final Rollers m_Rollers;
   /** Creates a new Stop. */
-  public Stop(Rollers Roller) {
+  public StopWheel(Rollers Roller) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_Rollers = Roller;
     addRequirements(m_Rollers);
@@ -23,8 +23,7 @@ public class Stop extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Rollers.setIntakeMotors(0);
-    m_Rollers.setShootMotor(0);
+    m_Rollers.setWheelMotors(0);
   }
 
   // Called once the command ends or is interrupted.
