@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,7 +20,7 @@ public class Rollers extends SubsystemBase {
   // ball clip victors
   private final VictorSPX shootMotor = new VictorSPX(RollerConstants.SHOOT);
   // ball dump victors
-  private final VictorSPX wheelMotor = new VictorSPX(RollerConstants.WHEEL);
+  private final TalonSRX wheelMotor = new TalonSRX(RollerConstants.WHEEL);
 
   private final VictorSPX frontSlideMotor = new VictorSPX(RollerConstants.SLIDE_FRONT);
   private final VictorSPX backSlideMotor = new VictorSPX(RollerConstants.SLIDE_BACK);

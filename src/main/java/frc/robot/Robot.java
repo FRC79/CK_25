@@ -20,6 +20,10 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Rollers;
 import frc.robot.commands.Drive_Commands.*;
+import frc.robot.commands.Roller_Commands.Intake;
+import frc.robot.commands.Roller_Commands.IntakeForever;
+import frc.robot.commands.Roller_Commands.RunAll;
+import frc.robot.commands.Roller_Commands.Wheel;
 import frc.robot.commands.Vision_Commands.*;
 
 
@@ -42,6 +46,8 @@ public class Robot extends TimedRobot {
 
   private DriveSubsystem m_DriveSubsystem;
 
+  private Rollers m_Rollers;
+
   /* commands */
 
   private TeleopDrive m_TeleopDrive;
@@ -57,6 +63,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_DriveTrain = new DriveTrain();
+    m_Rollers = new Rollers();
     m_DriveSubsystem = new DriveSubsystem();
     m_DriveTrain.gyro.reset();
     Shuffleboard.getTab("Example tab").add(m_DriveTrain.gyro);
@@ -91,12 +98,20 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     // schedule the autonomous command (example)
-    auto = new SequentialCommandGroup(new DriveInchAway(m_DriveTrain), 
-    new TurnToAngle(-90, m_DriveTrain, m_DriveSubsystem), 
-    new VisionTracking(m_DriveTrain, m_photoElectic, m_DriveSubsystem), 
+    auto = new SequentialCommandGroup(
+    new Wheel(m_Rollers).withTimeout(1),
+    new RunAll(m_Rollers).withTimeout(2),
+    new DriveInchAway(m_DriveTrain), 
+    new TurnToAngle(-90, m_DriveTrain, m_DriveSubsystem),
+    new IntakeForever(m_Rollers), 
+    new VisionTracking(m_DriveTrain, m_photoElectic, m_DriveSubsystem),
     new TurnToAngle(0, m_DriveTrain, m_DriveSubsystem),
-    new DriveForSec(m_DriveTrain),
-    new VisionTracking(m_DriveTrain, m_photoElectic, m_DriveSubsystem));
+    new DriveForSec(m_DriveTrain).withTimeout(0.75),
+    new VisionTracking(m_DriveTrain, m_photoElectic, m_DriveSubsystem),
+    new TurnToAngle(0, m_DriveTrain, m_DriveSubsystem),
+    new DriveForSec(m_DriveTrain).withTimeout(0.75),
+    new Wheel(m_Rollers).withTimeout(1),
+    new RunAll(m_Rollers).withTimeout(2));
     if (auto != null) {
       auto.schedule();
       }

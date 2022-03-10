@@ -2,43 +2,39 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Drive_Commands;
+package frc.robot.commands.Roller_Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
 
-import java.util.Timer;
+import frc.robot.subsystems.Rollers;
 
-import edu.wpi.first.wpilibj.RobotController;
-
-
-
-public class DriveForSec extends CommandBase {
-
-  private DriveTrain m_DriveTrain;
-
-  /** Creates a new DriveInchAway. */
-  public DriveForSec(DriveTrain subsystem) {
+public class RunAll extends CommandBase {
+  private final Rollers m_Rollers;
+  /** Creates a new Dump. */
+  public RunAll(Rollers Roller) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_DriveTrain = subsystem;
-    addRequirements(m_DriveTrain);
-
+    m_Rollers = Roller;
+    addRequirements(m_Rollers);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_DriveTrain.arcadeDrive(0.5, 0);
+    m_Rollers.setIntakeMotors(1); // change these to suit ball jamming
+    m_Rollers.setShootMotor(1);
+    m_Rollers.setWheelMotors(1);
   }
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_DriveTrain.arcadeDrive(0, 0);
+    m_Rollers.setIntakeMotors(0); // change these to suit ball jamming
+    m_Rollers.setShootMotor(0);
+    m_Rollers.setWheelMotors(0);
   }
 
   // Returns true when the command should end.

@@ -27,16 +27,17 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 //import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 public class DriveTrain extends SubsystemBase {
 
   /* left motors */
-  private final WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(DriveConstants.LEFT_MOTOR1_PORT);
-  private final WPI_TalonSRX backLeftMotor = new WPI_TalonSRX(DriveConstants.LEFT_MOTOR2_PORT);
+  private final VictorSPX frontLeftMotor = new VictorSPX(DriveConstants.LEFT_MOTOR1_PORT);
+  private final TalonSRX backLeftMotor = new TalonSRX(DriveConstants.LEFT_MOTOR2_PORT);
 
   /* right motors */
-  private final WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(DriveConstants.RIGHT_MOTOR1_PORT);
-  private final WPI_TalonSRX backRightMotor = new WPI_TalonSRX(DriveConstants.RIGHT_MOTOR2_PORT);
+  private final TalonSRX frontRightMotor = new TalonSRX(DriveConstants.RIGHT_MOTOR1_PORT);
+  private final VictorSPX backRightMotor = new VictorSPX(DriveConstants.RIGHT_MOTOR2_PORT);
 
   /* encoders */
   //private final Encoder rightEncoder = new Encoder(DriveConstants.LEFT_ENCODER_PORT_A,DriveConstants.LEFT_ENCODER_PORT_B,DriveConstants.LEFT_ENCODER_REVERSE);

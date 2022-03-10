@@ -32,11 +32,11 @@ public final class Constants {
   public static final class DriveConstants {
 
       /* motors */
-      public static final int LEFT_MOTOR1_PORT    = 1;
-      public static final int LEFT_MOTOR2_PORT    = 3;
+      public static final int LEFT_MOTOR1_PORT    = 15;
+      public static final int LEFT_MOTOR2_PORT    = 14;
       
-      public static final int RIGHT_MOTOR1_PORT   = 2;
-      public static final int RIGHT_MOTOR2_PORT   = 4; 
+      public static final int RIGHT_MOTOR1_PORT   = 0;
+      public static final int RIGHT_MOTOR2_PORT   = 1; 
 
       /* encoders */
       public static final int RIGHT_ENCODER_PORT_A        = 0;     // port for the A channel of right encoder
@@ -47,10 +47,10 @@ public final class Constants {
       public static final int LEFT_ENCODER_PORT_B         = 3;     // port for the B channel of leff encoder
       public static final boolean LEFT_ENCODER_REVERSE    = false; // is the left encoder reversed?
 
-      public static final int kLeftMotor1Port = 1;
-      public static final int kLeftMotor2Port = 3;
-      public static final int kRightMotor1Port = 2;
-      public static final int kRightMotor2Port = 4;
+      public static final int kLeftMotor1Port = 15;
+      public static final int kLeftMotor2Port = 14;
+      public static final int kRightMotor1Port = 0;
+      public static final int kRightMotor2Port = 1;
 
       public static final int[] kLeftEncoderPorts = new int[] {0, 1};
       public static final int[] kRightEncoderPorts = new int[] {2, 3};
@@ -81,9 +81,9 @@ public final class Constants {
 
   public static final class RollerConstants {
     /* roller vicors */
-    public static final int INTAKE    = 6;
-    public static final int SHOOT  = 9;
-    public static final int WHEEL    = 11;
+    public static final int INTAKE    = 10;
+    public static final int SHOOT  = 11;
+    public static final int WHEEL    = 9;
     public static final int SLIDE_FRONT  = 12;
     public static final int SLIDE_BACK  = 13;
 
@@ -96,9 +96,9 @@ public final class Constants {
     public static final int OPERATOR  = 1; // driver joystick port (usb) on laptop (changeable w/ oi in driver station)
   
     /* Controller Buttons */
-    public static final int INTAKE_BUTTON = 1;
-    public static final int SHOOT_BUTTON = 2;
-    public static final int WHEEL_BUTTON = 3;
+    public static final int INTAKE_BUTTON = 0;
+    public static final int SHOOT_BUTTON = 3;
+    public static final int WHEEL_BUTTON = 1;
     public static final int UP_BUTTON = 4;
     public static final int DOWN_BUTTON = 5;
     public static final int JERRY_BUTTON = 6;
